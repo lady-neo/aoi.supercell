@@ -1,0 +1,30 @@
+{
+  "name": "aoi-brawlapi",
+  "version": "1.0.0",
+  "description": "A template repository for creating bots with Aoi.js and Brawl Stars API integration.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "aoi.js",
+    "aoijs"
+  ],
+  "author": "Your Name",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ladyneo/aoi-brawlapi"
+  },
+  "bugs": {
+    "url": "https://github.com/ladyneo/aoi-brawlapi/issues"
+  },
+  "homepage": "https://github.com/ladyneo/aoi-brawlapi#readme",
+  "dependencies": {
+    "aoi.js": "6.8.5",
+    "@aoijs/aoi.db": "0.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
