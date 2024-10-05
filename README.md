@@ -6,4 +6,4 @@ If you'd like to create a new project based on this one, follow these steps:
 ```
 git clone https://github.com/ladyneo/aoi-brawlapi.git
 cd aoi-brawlapi
-npm install```
+npm install
