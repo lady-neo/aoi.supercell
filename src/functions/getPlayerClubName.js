@@ -18,7 +18,7 @@ module.exports = async (d) => {
 
   const idRegex = /^#[A-Za-z0-9]+$/;
   if (!idRegex.test(id.trim())) {
-    return d.aoiError.fnError(d, "custom", {}, "Invalid player id. The id must start with '#'.");
+    return d.aoiError.fnError(d, "custom", {}, "Invalid player ID. The ID must start with '#'.");
   }
 
   const filePath = join(process.cwd(), "./src/config/.tokens.json");
@@ -63,6 +63,6 @@ module.exports = async (d) => {
       code: d.util.setCode(data)
     };
   } catch (error) {
-    return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player club. Please check the ID and token.");
+    return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player club name. Please check the ID and token.");
   }
 };
