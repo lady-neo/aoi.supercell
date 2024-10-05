@@ -13,4 +13,6 @@ This will clone the repository, creating a new directory, and installing the aoi
 ## Registering a Token
 First you need to create an account on the [Supercell API](https://developer.brawlstars.com/#/key/74b57cfc-961f-486b-b3d7-52d1fde4528d).
 Then you need to access the "My Account" tab.
-![supercell-example](./img/register-token-1)
+<div align= "center">
+ <img src="img/register-token-1">
+</div>
