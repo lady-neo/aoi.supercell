@@ -1,5 +1,5 @@
 {
-  "name": "aoi-brawlapi",
+  "name": "aoi-brawlapi-example",
   "version": "1.0.0",
   "description": "A template repository for creating bots with Aoi.js and Brawl Stars API integration.",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "aoi.js",
     "aoijs"
   ],
-  "author": "ladyneo",
+  "author": "your-name",
   "license": "Apache-2.0",
   "dependencies": {
     "aoi.js": "6.8.5",
