@@ -18,7 +18,7 @@ module.exports = async (d) => {
 
   const idRegex = /^#[A-Za-z0-9]+$/;
   if (!idRegex.test(id.trim())) {
-    return d.aoiError.fnError(d, "custom", {}, "Invalid game id. The id must start with '#'.");
+    return d.aoiError.fnError(d, "custom", {}, "Invalid player id. The id must start with '#'.");
   }
 
   const filePath = join(process.cwd(), "./src/config/.tokens.json");
