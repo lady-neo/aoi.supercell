@@ -8,7 +8,7 @@ module.exports = async (d) => {
   const [id, tokenName] = data.inside.splits;
 
   if (!id || id.trim() === "") {
-    return d.aoiError.fnError(d, "custom", {}, "No game id provided.");
+    return d.aoiError.fnError(d, "custom", {}, "No player id provided.");
   }
 
   if (!tokenName || tokenName.trim() === "") {
@@ -17,7 +17,7 @@ module.exports = async (d) => {
 
   const idRegex = /^#[A-Za-z0-9]+$/;
   if (!idRegex.test(id.trim())) {
-    return d.aoiError.fnError(d, "custom", {}, "Invalid game id. The id must start with '#'.");
+    return d.aoiError.fnError(d, "custom", {}, "Invalid player id. The id must start with '#'.");
   }
 
   const filePath = join(process.cwd(), "./src/config/.tokens.json");
