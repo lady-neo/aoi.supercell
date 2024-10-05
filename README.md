@@ -9,3 +9,5 @@ cd aoi-brawlapi
 npm install
 ```
 This will clone the repository, creating a new directory, and installing the aoi.js dependency.
+
+## Registering a Token
