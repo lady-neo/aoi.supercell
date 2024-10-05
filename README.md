@@ -3,5 +3,7 @@ This repository contains a template for creating bots using the Aoi.js library w
 
 # Setup
 If you'd like to create a new project based on this one, follow these steps:
-```bash git clone https://github.com/ladyneo/aoi-brawlapi.git```
-```bash cd aoi-brawlapi``` ```bash npm install```
+```
+git clone https://github.com/ladyneo/aoi-brawlapi.git
+cd aoi-brawlapi
+npm install```
