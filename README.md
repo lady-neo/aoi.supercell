@@ -29,4 +29,17 @@ Now copy the token.
 
 After that use the following function:
 ```php
-$registerToken[here-goes-the-name of-the-token;here-goes-the-token-you-copied]```
+$registerToken[here-goes-the-name-of-the-token;here-goes-the-token-you-copied]
+```
+
+## Functions
+Parameters with ? at the end of the name are optional parameters.
+- `$registerToken[token-name;token]`
+- `$unregisterToken[token-name]`
+- `$getTokens[sep?]`
+- `$getTokenValue[token-name]`
+- `$getPlayerName[#PlayerID;token-name]`
+- `$getPlayerTrophies[#PlayerID;token-name]`
+- `$getPlayerClubName[#PlayerID;token-name]`
+- `$getPlayerClubTrophies[#PlayerID;token-name]`
+- `$getPlayerClubID[#PlayerID;token-name]`
