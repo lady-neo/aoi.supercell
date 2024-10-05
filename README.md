@@ -16,3 +16,17 @@ Then you need to access the "My Account" tab.
 <div align= "center">
  <img src="img/register-token-1.jpg">
 </div>
+
+Now you must create a new key:
+<div align="center">
+ <img src="img/register-token-2.jpg">
+</div>
+
+Now copy the token.
+<div>
+ <img src="img/register-token-3.jpg">
+</div>
+
+After that use the following function:
+```php
+$registerToken[here-goes-the-name of-the-token;here-goes-the-token-you-copied]```
