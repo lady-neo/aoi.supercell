@@ -50,7 +50,7 @@ module.exports = async (d) => {
     response.status,
     reponse.url
   );
-  return;
+  return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player club. Please check the ID and token.");;
 }
 
   const playerData = await response.json();
