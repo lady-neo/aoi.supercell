@@ -22,4 +22,19 @@ client.command({
 
 client.loadCommands("./commands");
 
-require(`${__dirname}/src/managers/functionManager`)(client.functionManager);
+const functionsPath = path.join(__dirname, "./src/functions");
+
+fs.readdir(functionsPath, (err, files) => {
+  if (err) {
+    console.error("Error reading functions  directory:", err);
+        return;
+    }
+
+    files
+    .filter(file => file.endsWith(".js"))
+    .forEach(file => {
+      const functionPath = path.join(functionsPath, file);
+      const thefunction = require(functionPath);
+      client.functionManager.createFunction(thefunction);
+        });
+});
