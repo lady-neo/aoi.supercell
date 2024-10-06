@@ -5,7 +5,10 @@ const hasInvalidCharacters = (str) => {
   return /\s|[^a-zA-Z0-9_.-]/.test(str);
 };
 
-module.exports = async (d) => {
+module.exports = {
+  name: "$registerToken",
+  type: "djs",
+  code: async (d) => {
   const data = d.util.aoiFunc(d);
   let [tokenName, token] = data.inside.splits;
 
@@ -48,5 +51,6 @@ module.exports = async (d) => {
 
   return {
     code: d.util.setCode(data)
-  };
+  }
 };
+}
