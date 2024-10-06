@@ -38,7 +38,7 @@ module.exports = {
   }
 
   try {
-    const response = await fetch(`https://api.brawlstars.com/v1/players/%23${id}`, {
+    const response = await fetch(`https://api.brawlstars.com/v1/players/%23${id.slice(1)}`, {
       headers: {
         Authorization: `Bearer ${tokenValue}`
       },
