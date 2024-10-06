@@ -67,5 +67,5 @@ module.exports = {
   } catch (error) {
     return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player trophies. Please check the id and token.");
   }
-};
+}
 }
