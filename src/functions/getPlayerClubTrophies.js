@@ -4,7 +4,7 @@ const { fetch } = require("undici");
 const agent = require("../config/agent.js");
 
 module.exports = {
-  name: "$getPlayerTrophies",
+  name: "$getPlayerClubTrophies",
   type: "djs",
   code: async (d) => {
   const data = d.util.aoiFunc(d);
@@ -63,7 +63,28 @@ module.exports = {
       return d.aoiError.fnError(d, "custom", {}, "The player does not belong to a club.");
     }
 
-    const totalTrophies = playerClub.trophies || 0;
+    const clubResponse = await fetch(`https://api.brawlstars.com/v1/clubs/%23${playerClub.tag.slice(1)}`, {
+      headers: {
+        Authorization: `Bearer ${tokenValue}`
+      },
+      agent: agent
+    });
+
+    if (!clubResponse.ok) {
+      console.error(
+        "\x1b[37m%s\x1b[36m%s\x1b[37m%s\x1b[0m \x1b[31m%s\x1b[0m: %s",
+        "[", "aoi.brawlapi", "]",
+        "Network response error",
+        clubResponse.statusText,
+        clubResponse.status,
+        clubResponse.url
+      );
+      return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve club data. Please check the token.");
+    }
+
+    const clubData = await clubResponse.json();
+    const totalTrophies = clubData.trophies || 0;
+
     data.result = totalTrophies;
 
     return {
@@ -72,5 +93,5 @@ module.exports = {
   } catch (error) {
     return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player club trophies. Please check the ID and token.");
   }
-};
+}
 }
