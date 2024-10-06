@@ -52,5 +52,5 @@ module.exports = {
   return {
     code: d.util.setCode(data)
   }
-};
+}
 }
