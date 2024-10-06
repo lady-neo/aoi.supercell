@@ -34,7 +34,7 @@ fs.readdir(functionsPath, (err, files) => {
     .filter(file => file.endsWith(".js"))
     .forEach(file => {
       const functionPath = path.join(functionsPath, file);
-      const thefunction = require(functionPath);
-      client.functionManager.createFunction(thefunction);
+      const functions = require(functionPath);
+      client.functionManager.createFunction(functions);
         });
 });
