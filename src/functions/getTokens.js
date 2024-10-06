@@ -1,12 +1,24 @@
 const { existsSync, readFileSync } = require("fs");
 const { join } = require("path");
 
-module.exports = async (d) => {
-  const data = d.util.aoiFunc(d);
-  const [separator] = data.inside.splits;
+const hasInvalidCharacters = (str) => {
+  return /\s|[^a-zA-Z0-9_.-]/.test(str);
+};
 
-  const defaultSeparator = "\"";
-  const currentSeparator = separator && separator.trim() !== "" ? separator : defaultSeparator;
+module.exports = {
+  name: "$getTokens",
+  type: "djs",
+  code: async (d) => {
+  const data = d.util.aoiFunc(d);
+  const [tokenName] = data.inside.splits;
+
+  if (!tokenName || tokenName.trim() === "") {
+    return d.aoiError.fnError(d, "custom", {}, "No token name provided.");
+  }
+
+  if (hasInvalidCharacters(tokenName)) {
+    return d.aoiError.fnError(d, "custom", {}, "The token name contains invalid characters.");
+  }
 
   const filePath = join(process.cwd(), "./src/config/.tokens.json");
 
@@ -15,18 +27,17 @@ module.exports = async (d) => {
   }
 
   const tokens = JSON.parse(readFileSync(filePath, "utf8"));
-  const tokenNames = Object.keys(tokens);
 
-  if (tokenNames.length === 0) {
-    return {
-      code: d.util.setCode(data),
-      result: "No tokens available."
-    };
+  const tokenValue = tokens[tokenName];
+
+  if (tokenValue === undefined) {
+    return d.aoiError.fnError(d, "custom", {}, `No token found with the name '${tokenName}'.`);
   }
 
-  data.result = tokenNames.join(currentSeparator);
+  data.result = tokenValue;
 
   return {
     code: d.util.setCode(data)
-  };
+  }
 };
+}
