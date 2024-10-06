@@ -3,7 +3,10 @@ const { join } = require("path");
 const { fetch } = require("undici");
 const agent = require("../config/agent.js")
 
-module.exports = async (d) => {
+module.exports = {
+  name: "$getPlayerTrophies",
+  type: "djs",
+  code: async (d) => {
   const data = d.util.aoiFunc(d);
   const [id, tokenName] = data.inside.splits;
 
@@ -65,3 +68,4 @@ module.exports = async (d) => {
     return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player trophies. Please check the id and token.");
   }
 };
+}
