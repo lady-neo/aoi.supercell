@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 const { AoiClient } = require("aoi.js");
 
 const client = new AoiClient({
