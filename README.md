@@ -41,7 +41,7 @@ Parameters with ? at the end of the name are optional parameters.
 - `$getPlayerName[game (coc/cr/bs);#PlayerID;token-name]`
 
 <div>
- <img src="img/$getPlayerName-example">
+ <img src="img/$getPlayerName-example.jpg">
 </div>
 
 - `$getPlayerTrophies[#PlayerID;token-name]`
