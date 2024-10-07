@@ -38,7 +38,7 @@ Parameters with ? at the end of the name are optional parameters.
 - `$unregisterToken[token-name]`
 - `$getTokens[sep?]`
 - `$getTokenValue[token-name]`
-- `$getPlayerName[#PlayerID;token-name]`
+- `$getPlayerName[game (coc/cr/bs);#PlayerID;token-name]`
 - `$getPlayerTrophies[#PlayerID;token-name]`
 - `$getPlayerClubName[#PlayerID;token-name]`
 - `$getPlayerClubTrophies[#PlayerID;token-name]`
