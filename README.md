@@ -11,7 +11,8 @@ npm install
 This will clone the repository, creating a new directory, and installing the aoi.js dependency.
 
 ## Registering a Token
-First you need to create an account on the [Supercell API](https://developer.brawlstars.com/#/key/74b57cfc-961f-486b-b3d7-52d1fde4528d).
+First you need to create an account on one of Supercell's APIs.
+- [BrawlStars](https://developer.brawlstars.com/#).
 Then you need to access the "My Account" tab.
 <div align= "center">
  <img src="img/register-token-1.jpg">
