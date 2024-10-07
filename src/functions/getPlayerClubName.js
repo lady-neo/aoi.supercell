@@ -67,6 +67,6 @@ module.exports = {
     };
   } catch (error) {
       return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player club name. Please check the ID and token.");
+    }
   }
-}
 }
