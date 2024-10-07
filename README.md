@@ -26,7 +26,7 @@ Now you must create a new key:
 </div>
 
 Now copy the token.
-<div>
+<div align="center">
  <img src="img/register-token-3.jpg">
 </div>
 
@@ -43,7 +43,7 @@ Parameters with ? at the end of the name are optional parameters.
 - `$getTokenValue[token-name]`
 - `$getPlayerName[game (coc/cr/bs);#PlayerID;token-name]`
 
-<div>
+<div align="center">
  <img src="img/$getPlayerName-example.jpg">
 </div>
 
