@@ -1,22 +1,60 @@
 {
-  "name": "aoi-brawlapi-example",
+  "name": "aoi.supercell",
   "version": "1.0.0",
-  "description": "A template repository for creating bots with Aoi.js and Brawl Stars API integration.",
-  "main": "index.js",
+  "description": "aoi.supercell is an extension for aoi.js that provides new functions to interact with Supercell games. Enhance your bot's capabilities by easily accessing game data, managing player information, and executing various actions within the Supercell gaming ecosystem.",
+  "author": "ladyneo <ladyneo_cs@outlook.com>",
+  "main": "src/index.js",
   "scripts": {
     "start": "node index.js"
   },
+  "engines": {
+    "node": ">=20.x"
+  },
+  "files": [
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
+    "license": "MIT",
+    "licenses": [
+      {
+        "type": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ladyneo/aoi-supercell.git"
+  },
+  "bugs": {
+  "url": "https://github.com/ladyneo/aoi-supercell/issues"
+  },
+  "peerDependencies": {
+  "aoi.js": ">=6.8.5"
+  },
   "keywords": [
     "aoi.js",
-    "aoijs"
+    "aoijs",
+    "aoi",
+    "api",
+    "supercell",
+    "brawl-stars",
+    "brawlstars",
+    "bs",
+    "clash-royale",
+    "clashroyale",
+    "cr",
+    "clash-of-clans",
+    "clashofclans",
+    "coc",
+    "dbd.js",
+    "dbdjs",
+    "dbd",
+    "discord",
+    "discordbot",
+    "supercellapi",
+    "supercell-api",
+    "mobile-game"
   ],
-  "author": "your-name",
-  "license": "Apache-2.0",
-  "dependencies": {
-    "aoi.js": "6.8.5",
-    "@aoijs/aoi.db": "0.0.0"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  }
+  "private": true
 }
