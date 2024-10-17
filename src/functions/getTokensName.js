@@ -32,7 +32,7 @@ module.exports = {
       return {
         code: d.util.setCode(data),
         result: "No tokens available."
-      };
+      }
     }
 
     data.result = tokenNames.join(currentSeparator);
