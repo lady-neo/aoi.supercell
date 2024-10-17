@@ -5,7 +5,6 @@ const agent = require("../config/agent.js");
 
 module.exports = {
   name: "$getPlayerName",
-  type: "djs",
   code: async (d) => {
     const data = d.util.aoiFunc(d);
     const [game, id, tokenName] = data.inside.splits;
@@ -27,28 +26,46 @@ module.exports = {
       return d.aoiError.fnError(d, "custom", {}, "Invalid player ID. The ID must start with '#'.");
     }
 
-    const filePath = join(process.cwd(), "./src/config/.tokens.json");
+    const method = d.client.AoiSupercell.registerTokenMethod;
+    let tokenValue;
 
-    if (!existsSync(filePath)) {
-      return d.aoiError.fnError(d, "custom", {}, "Token file does not exist.");
-    }
+    if (method === "file") {
+      const tokenPath = d.client.AoiSupercell.tokenPath;
+      const filePath = join(process.cwd(), tokenPath);
 
-    const tokens = JSON.parse(readFileSync(filePath, "utf8"));
-    const tokenValue = tokens[tokenName];
+      if (!existsSync(filePath)) {
+        return d.aoiError.fnError(d, "custom", {}, "Token file does not exist.");
+      }
 
-    if (tokenValue === undefined) {
-      return d.aoiError.fnError(d, "custom", {}, `No token found with the name '${tokenName}'.`);
+      const tokens = JSON.parse(readFileSync(filePath, "utf8"));
+      tokenValue = tokens[tokenName];
+
+      if (tokenValue === undefined) {
+        return d.aoiError.fnError(d, "custom", {}, `No token found with the name '${tokenName}'.`);
+      }
+    } else if (method === "index") {
+      tokenValue = d.client.AoiSupercell.tokens[tokenName];
+
+      if (tokenValue === undefined) {
+        return d.aoiError.fnError(d, "custom", {}, `No token found with the name '${tokenName}'.`);
+      }
+    } else {
+      return d.aoiError.fnError(d, "custom", {}, "Invalid token registration method.");
     }
 
     let apiUrl;
-    if (game.toLowerCase() === "bs") {
-      apiUrl = `https://api.brawlstars.com/v1/players/%23${id.slice(1)}`;
-    } else if (game.toLowerCase() === "cr") {
-      apiUrl = `https://api.clashroyale.com/v1/players/%23${id.slice(1)}`;
-    } else if (game.toLowerCase() === "coc") {
-      apiUrl = `https://api.clashofclans.com/v1/players/%23${id.slice(1)}`;
-    } else {
-      return d.aoiError.fnError(d, "custom", {}, "Invalid game specified. Use 'bs' for Brawl Stars, 'cr' for Clash Royale, or 'coc' for Clash of Clans.");
+    switch (game.toLowerCase()) {
+      case "bs":
+        apiUrl = `https://api.brawlstars.com/v1/players/%23${id.slice(1)}`;
+        break;
+      case "cr":
+        apiUrl = `https://api.clashroyale.com/v1/players/%23${id.slice(1)}`;
+        break;
+      case "coc":
+        apiUrl = `https://api.clashofclans.com/v1/players/%23${id.slice(1)}`;
+        break;
+      default:
+        return d.aoiError.fnError(d, "custom", {}, "Invalid game specified. Use 'bs' for Brawl Stars, 'cr' for Clash Royale, or 'coc' for Clash of Clans.");
     }
 
     try {
