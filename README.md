@@ -1,5 +1,5 @@
 # aoi-supercell
-This repository contains a template for creating bots using the Aoi.js library with integration to the Supercell API. The goal of this template is to provide a solid and easy-to-use foundation for developers looking to build custom bots that interact with Brawl Stars data, such as player statistics and match information.
+aoi.supercell is an extension for aoi.js that provides new functions to interact with Supercell games. Enhance your bot's capabilities by easily accessing game data, managing player information, and executing various actions within the Supercell gaming ecosystem.
 
 ## Setup
 If you'd like to create a new project based on this one, follow these steps:
