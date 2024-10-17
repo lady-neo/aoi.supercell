@@ -5,45 +5,57 @@ const agent = require("../config/agent.js");
 
 module.exports = {
   name: "$getPlayerClubName",
-  type: "djs",
   code: async (d) => {
     const data = d.util.aoiFunc(d);
     const [id, tokenName] = data.inside.splits;
 
     if (!id || id.trim() === "") {
       return d.aoiError.fnError(d, "custom", {}, "No player ID provided.");
-  }
+    }
 
     if (!tokenName || tokenName.trim() === "") {
       return d.aoiError.fnError(d, "custom", {}, "No token name provided.");
-  }
-
+    }
 
     const idRegex = /^#[A-Za-z0-9]+$/;
-  if (!idRegex.test(id.trim())) {
+    if (!idRegex.test(id.trim())) {
       return d.aoiError.fnError(d, "custom", {}, "Invalid player ID. The ID must start with '#'.");
-  }
+    }
 
-    const filePath = join(process.cwd(), "./src/config/.tokens.json");
+    const method = d.client.AoiSupercell.registerTokenMethod;
+    let tokenValue;
 
-  if (!existsSync(filePath)) {
-      return d.aoiError.fnError(d, "custom", {}, "Token file does not exist.");
-  }
+    if (method === "file") {
+      const tokenPath = d.client.AoiSupercell.tokenPath;
+      const filePath = join(process.cwd(), tokenPath);
 
-    const tokens = JSON.parse(readFileSync(filePath, "utf8"));
-    const tokenValue = tokens[tokenName];
+      if (!existsSync(filePath)) {
+        return d.aoiError.fnError(d, "custom", {}, "Token file does not exist.");
+      }
 
-    if (tokenValue === undefined) {
-      return d.aoiError.fnError(d, "custom", {}, `No token found with the name '${tokenName}'.`);
-  }
+      const tokens = JSON.parse(readFileSync(filePath, "utf8"));
+      tokenValue = tokens[tokenName];
 
-  try {
+      if (tokenValue === undefined) {
+        return d.aoiError.fnError(d, "custom", {}, `No token found with the name '${tokenName}'.`);
+      }
+    } else if (method === "index") {
+      tokenValue = d.client.AoiSupercell.tokens[tokenName];
+
+      if (tokenValue === undefined) {
+        return d.aoiError.fnError(d, "custom", {}, `No token found with the name '${tokenName}'.`);
+      }
+    } else {
+      return d.aoiError.fnError(d, "custom", {}, "Invalid token registration method.");
+    }
+
+    try {
       const response = await fetch(`https://api.brawlstars.com/v1/players/%23${id.slice(1)}`, {
         headers: {
           Authorization: `Bearer ${tokenValue}`
         },
         agent: agent
-    });
+      });
 
       if (!response.ok) {
         console.error(
@@ -54,7 +66,7 @@ module.exports = {
           response.status,
           response.url
         );
-        return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player club. Please check the ID and token.");
+        return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player club name. Please check the ID and token.");
       }
 
       const playerData = await response.json();
@@ -64,9 +76,9 @@ module.exports = {
 
       return {
         code: d.util.setCode(data)
-    };
-  } catch (error) {
+      };
+    } catch (error) {
       return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player club name. Please check the ID and token.");
     }
   }
-}
+};
