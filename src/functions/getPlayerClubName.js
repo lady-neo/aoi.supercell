@@ -76,7 +76,7 @@ module.exports = {
 
       return {
         code: d.util.setCode(data)
-      };
+      }
     } catch (error) {
       return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player club name. Please check the ID and token.");
     }
