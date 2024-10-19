@@ -18,7 +18,7 @@ const tokenManagerInfo = (context) => {
     );
   }
 
-  AoiError.createConsoleMessage(messages, "white", { text: "Token Manager Info", textColor: "cyan" });
+  AoiError.createConsoleMessage(messages, borderColor: "white", { text: "Token Manager Info", textColor: "cyan" });
 };
 
 module.exports = { installed, tokenManagerInfo };
