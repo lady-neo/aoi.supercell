@@ -1,4 +1,4 @@
-const { existsSync, writeFileSync, readFileSync } = require("fs");
+const { existsSync, mkdirSync, writeFileSync, readFileSync } = require("fs");
 const { join } = require("path");
 
 const hasInvalidCharacters = (str) => {
@@ -7,37 +7,50 @@ const hasInvalidCharacters = (str) => {
 
 module.exports = {
   name: "$unregisterToken",
-  type: "djs",
   code: async (d) => {
-  const data = d.util.aoiFunc(d);
-  let [tokenName] = data.inside.splits;
+    const data = d.util.aoiFunc(d);
+    if (data.err) return d.error(data.err);
+    const [tokenName] = data.inside.splits;
 
-  if (!tokenName || tokenName.trim() === "") {
-    return d.aoiError.fnError(d, "custom", {}, "No token name provided.");
-  }
+    if (!tokenName || tokenName.trim() === "") {
+      return d.aoiError.fnError(d, "custom", {}, "No token name provided.");
+    }
 
-  if (hasInvalidCharacters(tokenName)) {
-    return d.aoiError.fnError(d, "custom", {}, "The token name contains invalid characters.");
-  }
+    if (hasInvalidCharacters(tokenName)) {
+      return d.aoiError.fnError(d, "custom", {}, "The token name contains invalid characters.");
+    }
 
-  const filePath = join(process.cwd(), "./src/config/.tokens.json");
+    const method = d.client.AoiSupercell.registerTokenMethod;
 
-  if (!existsSync(filePath)) {
-    return d.aoiError.fnError(d, "custom", {}, "Token file does not exist.");
-  }
+    if (method === "file") {
+      const tokenPath = d.client.AoiSupercell.tokenPath;
 
-  const tokens = JSON.parse(readFileSync(filePath, "utf8"));
+      const dirPath = join(tokenPath, '..');
+      const filePath = join(tokenPath);
 
-  if (!tokens[tokenName]) {
-    return d.aoiError.fnError(d, "custom", {}, `Token '${tokenName}' not found.`);
-  }
+      if (!existsSync(dirPath)) {
+        mkdirSync(dirPath, { recursive: true });
+      }
 
-  delete tokens[tokenName];
+      if (!existsSync(filePath)) {
+        return d.aoiError.fnError(d, "custom", {}, "Token file does not exist.");
+      }
 
-  writeFileSync(filePath, JSON.stringify(tokens, null, 2));
+      const tokens = JSON.parse(readFileSync(filePath, "utf8"));
 
-  return {
-    code: d.util.setCode(data)
-  }
-}
-}
+      if (!tokens[tokenName]) {
+        return d.aoiError.fnError(d, "custom", {}, `Token '${tokenName}' not found.`);
+      }
+
+      delete tokens[tokenName];
+
+      writeFileSync(filePath, JSON.stringify(tokens, null, 2));
+    } else {
+      return d.aoiError.fnError(d, "custom", {}, "To use this function, you need to be using the 'file' method.");
+    }
+
+    return {
+      code: d.util.setCode(data)
+    };
+  },
+};
