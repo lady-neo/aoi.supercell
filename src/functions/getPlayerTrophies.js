@@ -7,6 +7,7 @@ module.exports = {
   name: "$getPlayerTrophies",
   code: async (d) => {
     const data = d.util.aoiFunc(d);
+    if (data.err) return d.error(data.err);
     const [game, id, tokenName] = data.inside.splits;
 
     if (!game || game.trim() === "") {
@@ -98,6 +99,6 @@ module.exports = {
       }
     } catch (error) {
       return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player trophies. Please check the ID and token.");
-    }
-  }
-}
+    };
+  },
+};
