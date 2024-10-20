@@ -7,37 +7,50 @@ const hasInvalidCharacters = (str) => {
 
 module.exports = {
   name: "$getTokenValue",
-  type: "djs",
   code: async (d) => {
-  const data = d.util.aoiFunc(d);
-  const [tokenName] = data.inside.splits;
+    const data = d.util.aoiFunc(d);
+    if (data.err) return d.error(data.err);
+    const [tokenName] = data.inside.splits;
 
-  if (!tokenName || tokenName.trim() === "") {
-    return d.aoiError.fnError(d, "custom", {}, "No token name provided.");
-  }
+    if (!tokenName || tokenName.trim() === "") {
+      return d.aoiError.fnError(d, "custom", {}, "No token name provided.");
+    }
 
-  if (hasInvalidCharacters(tokenName)) {
-    return d.aoiError.fnError(d, "custom", {}, "The token name contains invalid characters.");
-  }
+    if (hasInvalidCharacters(tokenName)) {
+      return d.aoiError.fnError(d, "custom", {}, "The token name contains invalid characters.");
+    }
 
-  const filePath = join(process.cwd(), "./src/config/.tokens.json");
+    const method = d.client.AoiSupercell.registerTokenMethod;
 
-  if (!existsSync(filePath)) {
-    return d.aoiError.fnError(d, "custom", {}, "Token file does not exist.");
-  }
+    if (method === "file") {
+      const tokenPath = d.client.AoiSupercell.tokenPath;
+      const filePath = join(tokenPath);
 
-  const tokens = JSON.parse(readFileSync(filePath, "utf8"));
+      if (!existsSync(filePath)) {
+        return d.aoiError.fnError(d, "custom", {}, "Token file does not exist.");
+      }
 
-  const tokenValue = tokens[tokenName];
+      const tokens = JSON.parse(readFileSync(filePath, "utf8"));
 
-  if (tokenValue === undefined) {
-    return d.aoiError.fnError(d, "custom", {}, `No token found with the name '${tokenName}'.`);
-  }
+      const tokenValue = tokens[tokenName];
 
-  data.result = tokenValue;
+      if (tokenValue === undefined) {
+        return d.aoiError.fnError(d, "custom", {}, `No token found with the name '${tokenName}'.`);
+      }
 
-  return {
-    code: d.util.setCode(data)
-  }
-}
-}
+      data.result = tokenValue;
+    } else if (method === "index") {
+      const tokenValue = d.client.AoiSupercell.tokens[tokenName];
+
+      if (tokenValue === undefined) {
+        return d.aoiError.fnError(d, "custom", {}, `No token found with the name '${tokenName}'.`);
+      }
+
+      data.result = tokenValue;
+    }
+
+    return {
+      code: d.util.setCode(data)
+    };
+  },
+};
