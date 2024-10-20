@@ -1,4 +1,4 @@
-const { existsSync, writeFileSync, readFileSync } = require("fs");
+const { existsSync, mkdirSync, writeFileSync, readFileSync } = require("fs");
 const { join } = require("path");
 
 const hasInvalidCharacters = (str) => {
@@ -7,50 +7,71 @@ const hasInvalidCharacters = (str) => {
 
 module.exports = {
   name: "$registerToken",
-  type: "djs",
   code: async (d) => {
-  const data = d.util.aoiFunc(d);
-  let [tokenName, token] = data.inside.splits;
+    const data = d.util.aoiFunc(d);
+    if (data.err) return d.error(data.err);
+    const [tokenName, token] = data.inside.splits;
 
-  if (!tokenName || tokenName.trim() === "") {
-    return d.aoiError.fnError(d, "custom", {}, "No token name provided.");
-  }
+    if (!tokenName || tokenName.trim() === "") {
+      return d.aoiError.fnError(d, "custom", {}, "No token name provided.");
+    }
 
-  if (!token || token.trim() === "") {
-    return d.aoiError.fnError(d, "custom", {}, "No token provided.");
-  }
+    if (!token || token.trim() === "") {
+      return d.aoiError.fnError(d, "custom", {}, "No token provided.");
+    }
 
-  if (hasInvalidCharacters(tokenName)) {
-    return d.aoiError.fnError(d, "custom", {}, "The token name contains invalid characters.");
-  }
+    if (hasInvalidCharacters(tokenName)) {
+      return d.aoiError.fnError(d, "custom", {}, "The token name contains invalid characters.");
+    }
 
-  if (hasInvalidCharacters(token)) {
-    return d.aoiError.fnError(d, "custom", {}, "The token value contains invalid characters.");
-  }
+    if (hasInvalidCharacters(token)) {
+      return d.aoiError.fnError(d, "custom", {}, "The token value contains invalid characters.");
+    }
 
-  const filePath = join(process.cwd(), "./src/config/.tokens.json");
+    const method = d.client.AoiSupercell.registerTokenMethod;
 
-  if (!existsSync(filePath)) {
-    writeFileSync(filePath, JSON.stringify({}, null, 2));
-  }
+    if (method === "file") {
+      if (d.client.AoiSupercell.registerTokenMethod !== "file") {
+        return d.aoiError.fnError(d, "custom", {}, "Token registration method is not 'file");
+      }
 
-  const tokens = JSON.parse(readFileSync(filePath, "utf8"));
+      const tokenPath = d.client.AoiSupercell.tokenPath;
 
-  const existingTokenName = Object.keys(tokens).find(name => tokens[name] === token);
-  if (existingTokenName) {
-    return d.aoiError.fnError(d, "custom", {}, `A token with the value '${token}' is already registered as '${existingTokenName}'. Please use a different value.`);
-  }
+      if (!tokenPath) {
+        return d.aoiError.fnError(d, "custom", {}, "No token path configured.");
+      }
 
-  if (tokens[tokenName] !== undefined) {
-    return d.aoiError.fnError(d, "custom", {}, `The token name '${tokenName}' is already in use. Please choose a different name.`);
-  }
+      const dirPath = join(tokenPath, '..');
+      const filePath = join(tokenPath);
 
-  tokens[tokenName] = token;
+      if (!existsSync(dirPath)) {
+        mkdirSync(dirPath, { recursive: true });
+      }
 
-  writeFileSync(filePath, JSON.stringify(tokens, null, 2));
+      if (!existsSync(filePath)) {
+        writeFileSync(filePath, JSON.stringify({}, null, 2));
+      }
 
-  return {
-    code: d.util.setCode(data)
-  }
-}
-}
+      const tokens = JSON.parse(readFileSync(filePath, "utf8"));
+
+      const existingTokenName = Object.keys(tokens).find(name => tokens[name] === token);
+      if (existingTokenName) {
+        return d.aoiError.fnError(d, "custom", {}, `A token with the value '${token}' is already registered as '${existingTokenName}'. Please use a different value.`);
+      }
+
+      if (tokens[tokenName] !== undefined) {
+        return d.aoiError.fnError(d, "custom", {}, `The token name '${tokenName}' is already in use. Please choose a different name.`);
+      }
+
+      tokens[tokenName] = token;
+
+      writeFileSync(filePath, JSON.stringify(tokens, null, 2));
+    } else {
+      return d.aoiError.fnError(d, "custom", {}, "To use this function, you need to be using the 'file' method.");
+    }
+
+    return {
+      code: d.util.setCode(data)
+    };
+  },
+};
