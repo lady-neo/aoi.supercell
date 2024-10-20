@@ -7,6 +7,7 @@ module.exports = {
   name: "$getPlayerName",
   code: async (d) => {
     const data = d.util.aoiFunc(d);
+    if (data.err) return d.error(data.err);
     const [game, id, tokenName] = data.inside.splits;
 
     if (!game || game.trim() === "") {
@@ -95,9 +96,9 @@ module.exports = {
 
       return {
         code: d.util.setCode(data)
-      }
+      };
     } catch (error) {
       return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player name. Please check the ID and token.");
-    }
-  }
-}
+    };
+  },
+};
