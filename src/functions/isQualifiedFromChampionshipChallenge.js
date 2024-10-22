@@ -67,7 +67,7 @@ module.exports = {
           response.status,
           response.url
         );
-        return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve if The player is qualified from champ championship challange. Please check the ID and token.");
+        return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve if the player is qualified from champ championship challange. Please check the ID and token.");
       }
 
       const playerData = await response.json();
@@ -79,7 +79,7 @@ module.exports = {
         code: d.util.setCode(data)
       };
     } catch (error) {
-      return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve if The player is qualified from champ championship challange. Please check the ID and token.");
+      return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve if the player is qualified from champ championship challange. Please check the ID and token.");
     }
   },
 };
