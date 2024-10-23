@@ -67,19 +67,19 @@ module.exports = {
           response.status,
           response.url
         );
-        return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player 3v3 Victories. Please check the ID and token.");
+        return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player 3v3 victories. Please check the ID and token.");
       }
 
       const playerData = await response.json();
-      const isQualifiedFromChampionshipChallenge = playerData["3vs3Victories"];
+      const threeVs3Victories = playerData["3vs3Victories"];
 
-      data.result = isQualifiedFromChampionshipChallenge;
+      data.result = threeVs3Victories;
 
       return {
         code: d.util.setCode(data)
       };
     } catch (error) {
-      return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player 3v3 Victories. Please check the ID and token.");
+      return d.aoiError.fnError(d, "custom", {}, "Failed to retrieve player 3v3 victories. Please check the ID and token.");
     }
   },
 };
